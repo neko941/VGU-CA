@@ -1,3 +1,5 @@
+/// @file pascal_algebraic.c
+
 #include <stdio.h>
 
 int factorial(int n)

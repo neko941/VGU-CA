@@ -1,5 +1,12 @@
+/// @file print_array_1d.c
+
 #include <stdio.h>
 
+/**
+ * Print the given array
+ * @param[in] arr[] the given array
+ * @param[in] size the size of the array
+ */
 void print_array_1d_0(int arr[], int size)
 {
     for (int i = 0; i < size; i++)
@@ -9,6 +16,11 @@ void print_array_1d_0(int arr[], int size)
     puts("");
 }
 
+/**
+ * Print the given array
+ * @param[in] *arr the given array
+ * @param[in] size the size of the array
+ */
 void print_array_1d_1(int * arr, int size)
 {
     for (int i = 0; i < size; i++)
@@ -18,6 +30,9 @@ void print_array_1d_1(int * arr, int size)
     puts("");
 }
 
+/**
+ * Main entry point of the program.
+*/
 int main()
 {
     int a[] = {1, 2, 3, 4, 5};
