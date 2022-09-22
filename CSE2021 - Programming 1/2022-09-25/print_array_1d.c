@@ -25,7 +25,7 @@ void print_array_1d_1(int * arr, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        printf("%d\t", arr[i]);
+        printf("%d\t", *(arr + i));
     }
     puts("");
 }

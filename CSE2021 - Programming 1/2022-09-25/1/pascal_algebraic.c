@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+
 int factorial(int n)
 {
     int fac = 1;
