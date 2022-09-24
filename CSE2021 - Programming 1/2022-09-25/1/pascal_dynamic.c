@@ -6,7 +6,7 @@
 /**
  * Print tje given array
  * @param[in] arr the array 
- * @param[out] _size size of the array
+ * @param[in] _size size of the array
  */
 void i_array_print_1d (int *arr, int _size)
 {
@@ -23,7 +23,7 @@ void i_array_print_1d (int *arr, int _size)
  */
 int* i_array_new_1d(int n)
 {
-    return (int*) calloc(n+1, sizeof(int));
+    return (int*) calloc(n, sizeof(int));
 }
 
 /**

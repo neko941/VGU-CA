@@ -10,7 +10,7 @@
  */
 int* i_array_new_1d(int n)
 {
-    return (int*) calloc(n+1, sizeof(int));
+    return (int*) calloc(n, sizeof(int));
 }
 
 /**
@@ -20,7 +20,7 @@ int* i_array_new_1d(int n)
  */
 int* factorial_dynamic(int n)
 {
-    int* result = i_array_new_1d(n+1);
+    int* result = i_array_new_1d(n);
     result[0] = 1;
     for (int i=1; i<=n; i++)
         result[i] = result[i-1] * i;
@@ -49,5 +49,9 @@ void pascal_algebraic_dynamic(int n)
 */
 int main()
 {
-    pascal_algebraic_dynamic(10);
+    int level;
+
+    printf("Enter the level of Pascal's Triangle:\n>> ");
+    scanf("%d", &level);
+    pascal_algebraic_dynamic(level);
 }
