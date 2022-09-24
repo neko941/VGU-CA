@@ -5,10 +5,10 @@ int main()
     // not in loop
 
     // count + print number [0; 5)
-    int count = 0;
-    for (int i = 0; i < 5; i++)
-        count++;
-        printf("me sitting at %d\n", count);
+    // int count = 0;
+    // for (int i = 0; i < 5; i++)
+    //     count++;
+    //     printf("me sitting at %d\n", count);
 
 
     // solve

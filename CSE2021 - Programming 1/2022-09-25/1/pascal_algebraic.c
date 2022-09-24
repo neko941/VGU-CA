@@ -2,7 +2,12 @@
 
 #include <stdio.h>
 
-
+/**
+ * Calculates the factorial
+ * Formula: n! = n * (n-1) * (n-2) * ... * 1
+ * @param[in] n
+ * @param[out] fac
+ */
 int factorial(int n)
 {
     int fac = 1;
@@ -13,19 +18,22 @@ int factorial(int n)
     return fac;
 }
 
-double factorial_recursive(int n)
+/**
+ * Calculates combination
+ * Formula: nCr = n! / ((n-r)! * r!)
+ * @param[in] n
+ * @param[in] r
+ * @param[out] _ combination 
+ */
+int nCr(int n, int r)
 {
-    if (n >= 1)
-        return n*factorial(n-1);
-    else
-        return 1;
+    return factorial(n) / (factorial(n-r) * factorial(r));
 }
 
-int nCr(int n,int r)
-{
-    return factorial(n) / ( factorial(n-r) * factorial(r) );
-}
-
+/**
+ * Print the Pascal's Triangle with the given level
+ * @param[in] n Pascal's Triangle up to n levels
+ */
 int pascal_algebraic(int n)
 {
     for(int i = 0; i <= n; i++)
@@ -40,7 +48,14 @@ int pascal_algebraic(int n)
     }
 }
 
+/**
+ * Main entry point of the program.
+*/
 int main()
 {
-    pascal_algebraic(10);
+    int level;
+
+    printf("Enter the level of Pascal's Triangle:\n>> ");
+    scanf("%d", &level);
+    pascal_algebraic(level);
 }

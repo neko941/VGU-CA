@@ -28,7 +28,7 @@ int* factorial_dynamic(int n)
 }
 
 /**
- * Print the Pascal's Triangle with the given level but it's recursive
+ * Print the Pascal's Triangle with the given level
  * @param[in] n Pascal's Triangle up to n levels
  */
 void pascal_algebraic_dynamic(int n)
@@ -38,9 +38,9 @@ void pascal_algebraic_dynamic(int n)
     {
         for(int j = 0; j <= n-i; j++)
             printf("  ");
-        for (int j=0; j<i; j++)
+        for (int j=0; j<=i; j++)
             printf("%3d ", factorial[i] / (factorial[i-j] * factorial[j]));
-        printf("  1\n");
+        puts("");
     }
 }
 

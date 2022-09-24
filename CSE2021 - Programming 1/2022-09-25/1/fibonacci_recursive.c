@@ -27,7 +27,7 @@ int main()
     printf("Enter the length of sequence:\n>> ");
     scanf("%d", &length);
 
-    printf("\nThe Fibonacci series:\n");
+    printf("The Fibonacci series:\n");
     for (i = 0; i < length; i++)
       printf("%d\t", fibonacci(i));
 }

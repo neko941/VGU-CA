@@ -19,6 +19,7 @@ double factorial(int n)
 
 /**
  * Calculates the sine of a number but it is recursive
+ * Formula (Latex): sin(x) = (-1)^{n}\sum_{n=0}^{\infty}\frac{x^{(2n+1)}}{(2n+1)!} = 1 - \frac{x^{3}}{3!} + \frac{x^{5}}{5!} - \frac{x^{7}}{7!} + \frac{x^{9}}{9!} - ...
  * @param[in] x number you wanna calculate sine
  * @param[in] n number of loops
  * @param[out] result sine of x
@@ -36,5 +37,12 @@ double sine_recursive(double x, int n)
 */
 int main()
 {
-    printf("%f\n", sine_recursive(3.14, 10));
+    double num;
+    int loop;
+
+    printf("Enter the number for sine: \n>> ");
+    scanf("%lf", &num);
+    printf("Enter the number of loop: \n>> ");
+    scanf("%d", &loop);
+    printf("sin(x=%f, loop=%d) = %f\n", num, loop, sine_recursive(num, loop));
 }

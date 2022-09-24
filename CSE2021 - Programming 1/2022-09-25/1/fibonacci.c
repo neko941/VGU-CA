@@ -13,7 +13,7 @@ void fibonacci(int length)
     int second = 1;
     int next;
 
-    printf("\nThe Fibonacci series:\n");
+    printf("The Fibonacci series:\n");
     for ( i = 0 ; i < length ; i++ )
     {
         if ( i <= 1 )

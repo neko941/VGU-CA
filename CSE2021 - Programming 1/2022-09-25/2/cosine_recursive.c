@@ -35,7 +35,17 @@ double cosine_recursive(double x, int n)
 /**
  * Main entry point of the program.
 */
+/**
+ * Main entry point of the program.
+*/
 int main()
 {
-    printf("%f\n", cosine_recursive(3.14, 10));
+    double num;
+    int loop;
+
+    printf("Enter the number for cosine: \n>> ");
+    scanf("%lf", &num);
+    printf("Enter the number of loop: \n>> ");
+    scanf("%d", &loop);
+    printf("cos(x=%f, loop=%d) = %f\n", num, loop, cosine_recursive(num, loop));
 }

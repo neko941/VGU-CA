@@ -41,5 +41,12 @@ double hyperbolic_cosine(double x, int n)
 */
 int main()
 {
-    printf("%f\n", hyperbolic_cosine(3.14, 10));
+    double num;
+    int loop;
+
+    printf("Enter the number for hyperbolic cosine: \n>> ");
+    scanf("%lf", &num);
+    printf("Enter the number of loop: \n>> ");
+    scanf("%d", &loop);
+    printf("cosh(x=%f, loop=%d) = %f\n", num, loop, hyperbolic_cosine(num, loop));
 }
