@@ -28,12 +28,28 @@ int* factorial_dynamic(int n)
 }
 
 /**
+ * Print tje given array
+ * @param[in] arr the array 
+ * @param[out] _size size of the array
+ */
+void i_array_print_1d (int *arr, int _size)
+{
+    for(int i=0; i<_size; i++)
+        // if (arr[i] != 0)
+            printf("%3d ", arr[i]);
+    puts("");
+}
+
+/**
  * Print the Pascal's Triangle with the given level
  * @param[in] n Pascal's Triangle up to n levels
  */
 void pascal_algebraic_dynamic(int n)
 {
     int* factorial = factorial_dynamic(n);
+    printf("Factorial:\n");
+    i_array_print_1d(factorial, n);
+    printf("Pascal's Triangle:\n");
     for (int i=0; i<=n; ++i)
     {
         for(int j = 0; j <= n-i; j++)

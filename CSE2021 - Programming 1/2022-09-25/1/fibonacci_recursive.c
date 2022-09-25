@@ -21,13 +21,13 @@ int fibonacci(int n)
 */
 int main()
 {
-    int i;
-    int length;
+   int i;
+   int length;
 
-    printf("Enter the length of sequence:\n>> ");
-    scanf("%d", &length);
+   printf("Enter the length of sequence:\n>> ");
+   scanf("%d", &length);
 
-    printf("The Fibonacci series:\n");
-    for (i = 0; i < length; i++)
+   printf("The Fibonacci series:\n");
+   for (i = 0; i < length; i++)
       printf("%d\t", fibonacci(i));
 }

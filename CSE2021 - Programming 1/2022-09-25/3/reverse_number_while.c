@@ -11,7 +11,6 @@
 long long int reverse_number(long long int x)
 {
     int reverse = 0; ///< variable to store the result
-
     while (x != 0)
     {
         reverse = reverse * 10 + x % 10;

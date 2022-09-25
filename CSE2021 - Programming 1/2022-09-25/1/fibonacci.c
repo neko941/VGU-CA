@@ -8,13 +8,12 @@
  */
 void fibonacci(int length)
 {
-    int i;
     int first = 0;
     int second = 1;
     int next;
 
     printf("The Fibonacci series:\n");
-    for ( i = 0 ; i < length ; i++ )
+    for (int i = 0 ; i < length ; i++ )
     {
         if ( i <= 1 )
             next = i;
