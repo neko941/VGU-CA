@@ -13,7 +13,6 @@ int *i_arrayNew_1d(int _size)
     return (int *)calloc(_size, sizeof(int));
 }
 
-
 /**
  * Create a new 1-dimensional array with the given size filled values within range [min, max]
  * @param[in] _size the size of the array
@@ -153,6 +152,7 @@ void i_arrayPrint_subscritable1d(int *arr, int _size)
 
 int main()
 {
+
     // set random seed
     srand(time(NULL));
 

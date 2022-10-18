@@ -40,11 +40,11 @@ int main()
     int row = 3;
     int col = 3;
     int *arr = i_arrayNew_1d(row * col);
-    for (int i = 0; i < col; i++)
+    for (int i = 0; i < row; i++)
     {
-        for (int j = 0; j < row; j++)
+        for (int j = 0; j < col; j++)
         {
-            arr[j * row + i] = i * row + j + 1;
+            arr[i * row + j] = j * col + i + 1;
         }
     }
     printf("The matrix:\n");
