@@ -1,6 +1,5 @@
 /// @file BoW-BBoW.c
 #include <stdio.h>
-#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -158,19 +157,25 @@ int *BoW(char **vocab, int _size, char **tokenized, int _size1)
  */
 int *BBoW(char **vocab, int _size, char **tokenized, int _size1)
 {
-    int *bow = BoW(vocab, _size, tokenized, _size1);
     int *BBoW = i_arrayNew_1d(_size);
 
-    for (int i = 0; i < _size; i++)
+    int flag = 0;
+    for (int i = 0; i < _size1; i++)
     {
-        if (bow[i] == 0)
+        for (int j = 0; j < _size; j++)
         {
-            BBoW[i] = 0;
+            if (strcmp(tokenized[i], vocab[j]) == 0)
+            {
+                BBoW[j] = 1;
+                flag = 1;
+                break;
+            }
         }
-        else
+        if (flag == 0)
         {
-            BBoW[i] = 1;
+            BBoW[0] = 1;
         }
+        flag = 0;
     }
     return BBoW;
 }
@@ -261,7 +266,10 @@ char toLowercase(char *str)
 {
     for (; *str; ++str)
     {
-        *str = tolower(*str);
+        if ((int)*str >= 65 && (int)*str <= 90)
+        {
+            *str = (*str) + 32;
+        }
     }
 }
 
@@ -276,7 +284,8 @@ int main()
     char str1[] = {"   vietnam;[/>/]   machi.[/;/ne    learn.[;.ing deep learning book 123   learning |"};
     char str2[] = {"vietnam is not a book"};
     char str3[] = {"a book is a book"};
-    char test_str[] = {"neko941 is from vietnam unD er es nEkO941 iS nOt learning a machine learning book."};
+    char test_str[] = {"neko941 is from vietnam unD nEkO941 iS nOt learning a machine learning bOOK. "};
+    // char test_str[] = {"Nyanyame nyanyajyuunyanya-do no nyarabi de nyakunyaku inyanyaku nyanyahan nyanyadai nyanynaku nyarabete nyaganyagame"};
     char seperator[] = " ";
 
     // comcatenate main string
