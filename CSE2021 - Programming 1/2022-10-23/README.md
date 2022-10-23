@@ -1,2 +1,2 @@
-Bag of Words \\
+Bag of Words <br>
 Binary Bag of Words
