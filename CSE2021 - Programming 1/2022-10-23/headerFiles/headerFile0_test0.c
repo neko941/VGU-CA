@@ -3,5 +3,5 @@
 
 int main()
 {
-    printf("%d", sum(5, 4));
+    printf("%d", sum(10, 4));
 }

@@ -84,32 +84,35 @@ void c_arrayPrintCustomized_2d(char **array, int _size, char *header, char *preE
 
 /**
  * Get a set of unique elements of the input array
- * @param[in] matrix input array
- * @param[in] row number of words
- * @param[in] col maximum length of words
  * @param[in] res number of unique elements
  * @param[out] result a set of unique elements of the input array
  */
-char **getVocabulary(char **matrix, int row, int col, int *res)
+char **getVocabulary(char **input, int _size, int max_feature, int word_max_len, int *res)
 {
     *res = 0;
-    char **result = c_array_new_2d(row, col);
+    char **result = c_array_new_2d(max_feature, word_max_len);
 
     strcpy(result[(*res)++], "<OOV>");
-    for (int i = 0; i < row; i++)
+    max_feature--;
+    for (int i = 0; i < _size; i++)
     {
-        int j = 0;
-        for (j = i + 1; j < row; j++)
+        if (max_feature < 0)
         {
-            if (strcmp(matrix[i], matrix[j]) == 0)
+            break;
+        }
+        int j = 0;
+        for (j = i + 1; j < _size; j++)
+        {
+            if (strcmp(input[i], input[j]) == 0)
             {
                 break;
             }
         }
-        if (j == row)
+        if (j == _size)
         {
-            strcpy(result[(*res)++], matrix[i]);
+            strcpy(result[(*res)++], input[i]);
         }
+        max_feature--;
     }
     return result;
 }
@@ -184,21 +187,28 @@ int *BBoW(char **vocab, int _size, char **tokenized, int _size1)
  * Split a string into a list of separated words
  * @param[in] str the string to split
  * @param[in] seperator the separator to split words
+ * @param[in] max_feature maximum number of words
+ * @param[in] word_max_len maximum length of each word
  * @param[in] size number of words after splitted
  * @param[out] tokenizer list of separated words
  */
-char **tokenizer(char *str, char *seperator, int *size)
+char **tokenizer(char *str, char *seperator, int max_feature, int word_max_len, int *size)
 {
     *size = 0;
     char *token = strtok(str, seperator);
-    char **tokenizer = c_array_new_2d(100, 49);
+    char **tokenized = c_array_new_2d(max_feature, word_max_len);
 
     while (token != NULL)
     {
-        tokenizer[(*size)++] = token;
+        if (max_feature < 0)
+        {
+            break;
+        }
+        tokenized[(*size)++] = token;
         token = strtok(NULL, seperator);
+        max_feature--;
     }
-    return tokenizer;
+    return tokenized;
 }
 
 /**
@@ -309,17 +319,19 @@ int main()
     c_arrayPrintCustomized_1d(test_str, "Cleaned test string: \n\t", "", " ", "\n");
 
     // tokenizer
+    int max_feature = 100;
+    int word_max_len = 49;
     int length = 0;
-    char **tokenized = tokenizer(str, seperator, &length);
+    char **tokenized = tokenizer(str, seperator, max_feature, word_max_len, &length);
     c_arrayPrintCustomized_2d(tokenized, length, "Tokenized main string: \n\t", "", " ", "\n");
 
     int length1 = 0;
-    char **tokenized1 = tokenizer(test_str, seperator, &length1);
+    char **tokenized1 = tokenizer(test_str, seperator, max_feature, word_max_len, &length1);
     c_arrayPrintCustomized_2d(tokenized1, length1, "Tokenized test string: \n\t", "", " ", "\n");
 
     // get vocabulary
     int vocab_size;
-    char **vocab = getVocabulary(tokenized, length, 49, &vocab_size);
+    char **vocab = getVocabulary(tokenized, length, max_feature, word_max_len, &vocab_size);
     c_arrayPrintCustomized_2d(vocab, ++vocab_size, "Vocabulary: \n\t", "", " ", "\n");
 
     // Bag of Words

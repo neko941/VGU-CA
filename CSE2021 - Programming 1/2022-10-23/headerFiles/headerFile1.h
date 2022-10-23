@@ -1,5 +1,5 @@
-#ifndef __HEADERFILE1_H__
-#define __HEADERFILE1_H__
+#ifndef HEADERFILE1_H
+#define HEADERFILE1_H
 
 int sum(int a, int b)
 {
