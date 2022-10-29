@@ -1,0 +1,201 @@
+    /* SOURCE IMAGES */
+    unsigned char background[HEIGHT][WIDTH][CHANNEL];
+    unsigned char foreground[HEIGHT][WIDTH][CHANNEL];
+    unsigned char fake_background[HEIGHT][WIDTH][CHANNEL];
+    
+    /* PROCESSED IMAGES */
+    unsigned char mask[HEIGHT][WIDTH];
+    unsigned char segmented[HEIGHT][WIDTH][CHANNEL];
+
+    /* OTHERS */
+    unsigned char subtracted_color[HEIGHT][WIDTH][CHANNEL];
+    unsigned char subtracted_gray[HEIGHT][WIDTH];
+
+    /* OUTPUT IMAGES */
+    unsigned char new_image[HEIGHT][WIDTH][CHANNEL];
+
+    /* READING IMAGES */
+    read_color_image(background, background_path);
+    read_color_image(foreground, foreground_path);
+    read_color_image(fake_background, fake_background_path);
+
+    /* SUBTRACT BACKGROUND */
+    //void subtract_background_color(BG[][][], FG[][][], SUBTRACTED_COLOR[][][])
+    
+    for(int i=0; i<HEIGHT; i++)
+    {
+        for(int j=0; j<WIDTH; j++)
+        {
+            for(int k=0; k<CHANNEL; k++)
+            {
+                subtracted_color[i][j][k] = abs(foreground[i][j][k] - background[i][j][k]);
+            }
+        }
+    }
+    save_color_image(subtracted_color, "subtracted_color.jpg");
+
+    /* CONVERT SUBTRACTED COLOR TO GRAYSCALE */
+
+    convert_to_grayscale(subtracted_color, subtracted_gray);
+    save_grayscale_image(subtracted_gray, "subtracted_gray.jpg");
+
+    /* CREATE MASK */
+    // void create_mask(SUBTRACTED_GRAY[][], MASK[][], THRESHOLD_VAL)
+
+    unsigned char threshold = 50;
+    for(int i=0; i<HEIGHT; i++)
+    {
+        for(int j=0; j<WIDTH; j++)
+        {
+            mask[i][j] = (subtracted_gray[i][j] < threshold)? 0:255; //mask[i][j] = 0 if ()->true, 255 if ()->false
+        }
+    }
+    save_grayscale_image(mask, "mask.jpg");
+
+    /* CREATE SEGMENTED IMAGE */
+    // void create_segmented(FORGROUND[][][], MASK[][], SEGMENTED[][][])
+
+    for(int i=0; i<HEIGHT; i++)
+    {
+        for(int j=0; j<WIDTH; j++)
+        {
+            for(int k=0; k<CHANNEL; k++)
+            {
+                //segmented[i][j][k] = (mask[i][j] == 0)? 0:foreground[i][j][k];
+                segmented[i][j][k] = (mask[i][j]/255)*foreground[i][j][k];
+            }
+        }
+    }
+    save_color_image(segmented, "segmented_image.jpg");
+
+    /* COMBINE TO MAKE A NEW IMAGE WITH FAKE BACKGROUND */
+    // void combine(NEW_IMAGE[][][], SEGMENTED[][][], MASK[][])
+
+    for(int i=0; i<HEIGHT; i++)
+    {
+        for(int j=0; j<WIDTH; j++)
+        {
+            for(int k=0; k<CHANNEL; k++)
+            {   
+                new_image[i][j][k] = (mask[i][j] == 0)? fake_background[i][j][k]:segmented[i][j][k];
+                //new_image[i][j][k] = ((255 - mask[i][j])/255)*fake_background[i][j][k] + segmented[i][j][k];
+            }
+        }
+    }
+    save_color_image(new_image, "new_image.jpg");
+
+
+
+
+/*===========================================================================================mean ====*/
+
+
+double calculate_mean(unsigned char window[WINDOW_SIZE][WINDOW_SIZE])
+{
+    double mean_val = 0.0;
+    for(int i=0; i<WINDOW_SIZE; i++)
+    {
+        for(int j=0; j < WINDOW_SIZE; j++)
+        {
+            mean_val += window[i][j];
+        }
+    }
+    return mean_val/(WINDOW_SIZE*WINDOW_SIZE);
+}
+
+void bubble_sort(unsigned char array[WINDOW_SIZE*WINDOW_SIZE])
+{
+    int length = WINDOW_SIZE*WINDOW_SIZE;
+    for(int i=0; i<length - 1; i++)
+    {
+        for(int j=i + 1; j< length; j++)
+        {
+            if(array[i] > array[j])
+            {
+                unsigned char temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+    }    
+}
+
+void flatten(unsigned char window[WINDOW_SIZE][WINDOW_SIZE], unsigned char result[WINDOW_SIZE*WINDOW_SIZE])
+{
+    for(int i=0; i<WINDOW_SIZE; i++)
+    {
+        for(int j=0; j<WINDOW_SIZE; j++)
+        {
+            result[i * WINDOW_SIZE + j] = window[i][j];
+        }
+    }
+}
+
+unsigned char calculate_median(unsigned char window[WINDOW_SIZE][WINDOW_SIZE])
+{
+    int length = WINDOW_SIZE*WINDOW_SIZE;
+    unsigned char flatten_array[WINDOW_SIZE*WINDOW_SIZE];
+    flatten(window, flatten_array);
+    bubble_sort(flatten_array);
+
+    if(length % 2 == 1)
+    {
+        int index = (length + 1)/2;
+        return flatten_array[index - 1];
+    }
+    else
+    {
+        int index = length/2;
+        return (unsigned char)(flatten_array[index] + flatten_array[index - 1])/2;
+    }
+}
+
+/*
+* This function is to create the blured image in grayscale form, using mean value transfer.
+* Input: path-to-image
+* Output: Blured image
+*/
+void mean_transfer(char* image)
+{
+    /* IMAGE */
+    unsigned char image_color[HEIGHT][WIDTH][CHANNEL];
+    unsigned char image_gray[HEIGHT][WIDTH];
+    unsigned char output_image[HEIGHT][WIDTH];
+    unsigned char output_image_median[HEIGHT][WIDTH];
+    /* WINDOW */
+    unsigned char window[WINDOW_SIZE][WINDOW_SIZE];
+
+    /* READ IMAGE */
+    read_color_image(image_color, image);
+
+    /* CONVERT COLOR IMAGE TO GRAYSCALE IMAGE */
+    convert_to_grayscale(image_color, image_gray);
+    save_grayscale_image(image_gray, "gray.jpg");
+
+    /* CREATE MEAN TRANSFERED IMAGE */
+
+    int bound = (int) WINDOW_SIZE/2; //Default WINDOW_SIZE = 5 --> 2
+    for(int i=bound; i<HEIGHT - bound; i++)
+    {
+        for(int j=bound; j<WIDTH - bound; j++)
+        {
+            /* GET PIXELS FOR WINDOW */
+            for(int m = 0; m<WINDOW_SIZE; m++)
+            {
+                for(int n = 0; n<WINDOW_SIZE; n++)
+                {
+                    window[m][n] = image_gray[i + m - bound][j + n - bound]; //move up bound(2) pixels and move left bound(2) pixels
+                }
+            }
+            /* CALCULATE MEAN AND MEDIAN FOR WINDOW */
+            double mean_val = calculate_mean(window);
+            unsigned char median_val = calculate_median(window);
+
+            /* ADD MEAN VALUE TO OUTPUT IMAGE */
+            output_image[i][j] = (unsigned char) mean_val;
+            output_image_median[i][j] = median_val;
+        }
+    }
+    save_grayscale_image(output_image, "output_image.jpg");
+    save_grayscale_image(output_image_median, "output_image_median.jpg");
+}    
